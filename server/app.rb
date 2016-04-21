@@ -41,9 +41,9 @@ end
 post "/github" do
   repo = params["repo"] || halt(400, "Missing parameter repo")
 
-  max_push_interval = ENV.fetch('MAX_PUSH_INTERVAL', 5).to_i
+  min_push_interval = ENV.fetch('MIN_PUSH_INTERVAL', 5).to_i
 
-  result = if rate_limit(repo, max_push_interval)
+  result = if rate_limit(repo, min_push_interval)
     "Too many requests"
   else
     ProdLog.write "STARTED #{repo}"
